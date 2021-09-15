@@ -7,6 +7,8 @@ import * as React from 'react'
 function useLocalStorageState(
   key,
   defaultValue = '',
+  // the = {} fixes the error we would get from destructuring when no argument was passed
+  // Check https://jacobparis.com/blog/destructure-arguments for a detailed explanation
   {serialize = JSON.stringify, deserialize = JSON.parse} = {},
 ) {
   const [state, setState] = React.useState(() => {
@@ -25,6 +27,7 @@ function useLocalStorageState(
 
   const prevKeyRef = React.useRef(key)
 
+  // Check the example at src/examples/local-state-key-change.js to visualize a key change
   React.useEffect(() => {
     const prevKey = prevKeyRef.current
     if (prevKey !== key) {

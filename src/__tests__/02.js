@@ -10,7 +10,10 @@ afterEach(() => {
 
 test('App works', () => {
   const {rerender} = render(<App />)
-  userEvent.type(screen.getByRole('textbox', {name: /name/i}), 'bob')
+  const inputTextbox = screen.getByRole('textbox', {name: /name/i})
+  
+  userEvent.clear(inputTextbox)
+  userEvent.type(inputTextbox, 'bob')
   const lsName = window.localStorage.getItem('name')
 
   // extra credit 4 serializes the value in localStorage so there's a bit of a
@@ -40,4 +43,5 @@ test('App works', () => {
       `🚨 the value in localStorage is not getting deserialized properly. Make sure the value is deserialized when read from localStorage.`,
     )
   }
+  expect(screen.getByRole('textbox', {name: /name/i})).toHaveValue('jill')
 })
