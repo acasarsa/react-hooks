@@ -6,7 +6,13 @@ import * as React from 'react'
 function Greeting({initialName = ''}) {
   // 🐨 initialize the state to the value from localStorage
   // 💰 window.localStorage.getItem('name') || initialName
-  const [name, setName] = React.useState(initialName)
+  const [name, setName] = React.useState(
+    window.localStorage.getItem('name') || initialName,
+  )
+
+  React.useEffect(() => {
+    window.localStorage.setItem('name', name)
+  })
 
   // 🐨 Here's where you'll use `React.useEffect`.
   // The callback should set the `name` in localStorage.
@@ -20,6 +26,9 @@ function Greeting({initialName = ''}) {
       <form>
         <label htmlFor="name">Name: </label>
         <input value={name} onChange={handleChange} id="name" />
+        {/* Below is an inline way to do a simple handle change where you set the name state to e.target.value just have value=name part */}
+        {/* the input's value is the name state and as we change it it will update it via setName  */}
+        {/* <input value={name} onChange={(e) => setName(e.target.value)} id="name" /> */}
       </form>
       {name ? <strong>Hello {name}</strong> : 'Please type your name'}
     </div>
